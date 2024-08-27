@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img class="d-inline-block align-top" src="NABAA-TV-LOGO1.png" width="100" height="40" />
+
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            News
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">World</a></li>
+                            <li><a class="dropdown-item" href="#">Politics</a></li>
+                            <li><a class="dropdown-item" href="#">Sports</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item ">
+                        <img src="facebook-logo-facebook-icon-transparent-free-png.webp" id="fb" width="100" height="50"
+                            alt="facebook-page" style="cursor:pointer;">
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <h1>Hello NABAA TV WORLD! (<span id="resultCount"></span> Results)</h1>
+        <div class="row content">
+            <div class="card my-4 mx-2" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-around">
+            <button class="btn btn-primary">Previous Page</button>
+            <button class="btn btn-primary">Next Page</button>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.getElementById('fb').onclick = function () {
+            window.location.href = "https://www.facebook.com/Nabaatvcom/";
+        };
+    </script>
+    <script>
+        const fetchNews = async (page) => {
+            console.log("Fetching news...");
+            var url = 'https://newsapi.org/v2/everything?' +
+                'q=Apple&' +
+                'from=2024-08-25&' +
+                'pageSize=20&' +
+                'page=2' + page +
+                'sortBy=popularity&' +
+                'apiKey=1f389b12ee7c49c4b327d0cac892f9f5';
+
+            var req = new Request(url);
+
+            //let a = await fetch(req)
+            //let response = await a.json()
+            //console.log(JSON.stringify(response))
+
+            let response = { "status": "ok", "totalResults": 1374, "articles": [{ "source": { "id": "the-verge", "name": "The Verge" }, "author": "Allison Johnson", "title": "European iPhones are more fun now", "description": "Apple has responded to new EU tech regulations by giving European iPhone owners more options, more flexibility, and more fun. And it’s unfair.", "url": "https://www.theverge.com/2024/8/24/24226946/iphone-eu-regulation-app-stores-fortnite", "urlToImage": "https://cdn.vox-cdn.com/thumbor/GFBOModOaaI-W_A71amm02Xyn6c=/0x0:2040x1360/1200x628/filters:focal(1020x680:1021x681)/cdn.vox-cdn.com/uploads/chorus_asset/file/24931352/236792_iPhone_15_Pro_and_15_Pro_Max_product_photos_AJohnson_0008.jpg", "publishedAt": "2024-08-25T00:00:00Z", "content": "European iPhones are more fun now\r\nEuropean iPhones are more fun now\r\n / An iPhone used to be an iPhone no matter where you used it. Thats not the case anymore.\r\nByAllison Johnson, a reviewer with 10… [+2291 chars]" }, { "source": { "id": "the-verge", "name": "The Verge" }, "author": "David Pierce", "title": "The best smartphone photos of the year", "description": "Plus, a new podcast from the Wirecutter and another on the Sony hack, Blink Twice hits theaters, the new Ring Video Doorbell, and more in this week’s Installer.", "url": "https://www.theverge.com/2024/8/25/24226795/best-smartphone-photos-2024-hollywood-hack-blink-twice-installer", "urlToImage": "https://cdn.vox-cdn.com/thumbor/EmKE7TJltRCG5tCEG-1Thl6nbks=/0x0:2760x1839/1200x628/filters:focal(1380x920:1381x921)/cdn.vox-cdn.com/uploads/chorus_asset/file/25586057/installer_49.png", "publishedAt": "2024-08-25T12:00:00Z", "content": "The best smartphone photos of the year\r\nThe best smartphone photos of the year\r\n / Plus, in this weeks Installer: A bunch of great new tech podcasts, Rings new doorbell, and a tech thriller in theate… [+11431 chars]" }, { "source": { "id": "business-insider", "name": "Business Insider" }, "author": "Lian Kit Wee", "title": "Paramount's last-minute bidder wants to partner with a streaming service, report says", "description": "Edgar Bronfman Jr. wants to partner Paramount with a tech giant like Apple to boost its streaming business, Bloomberg reported.", "url": "https://www.businessinsider.com/edgar-bronfman-seeks-tech-company-partnership-paramount-apple-amazon-2024-8", "urlToImage": "https://i.insider.com/66cc20291aa2ac29ee340738?width=1200&format=jpeg", "publishedAt": "2024-08-26T06:40:40Z", "content": "Edgar Bronfman Jr. wants Paramount to partner with a tech giant like Apple or Amazon to boost its streaming business.R. Diamond/Getty Images\r\n<ul><li>Edgar Bronfman Jr. wants Paramount to partner wit… [+2575 chars]" }, { "source": { "id": null, "name": "MacRumors" }, "author": "Tim Hardwick", "title": "Both iPhone 16 Pro Models to Use Telephoto Lens From Same Supplier", "description": "This year, Apple will bring the Tetraprism Telephoto lens that was exclusive to the iPhone 15 Pro Max to both iPhone 16 Pro models, and a new report out of Korea claims that Apple will initially rely on the same supplier as it did in 2023 for the required fol…", "url": "https://www.macrumors.com/2024/08/26/iphone-16-pro-telephoto-lens-both-models/", "urlToImage": "https://images.macrumors.com/t/lHvdCB520pd4207xysEPWU2jpas=/1920x/article-new/2023/02/iPhone-15-Pro-Periscope-Mock-Feature.jpg", "publishedAt": "2024-08-26T10:37:43Z", "content": "This year, Apple will bring the Tetraprism Telephoto lens that was exclusive to the iPhone 15 Pro Max to both iPhone 16 Pro models, and a new report out of Korea claims that Apple will initially rely… [+1096 chars]" }, { "source": { "id": null, "name": "MacRumors" }, "author": "Tim Hardwick", "title": "iPhone 16 Likely to Launch on September 20 With These New Features", "description": "Apple is likely to launch its new iPhone 16 lineup in stores on Friday, September 20, with Apple expected to send out media invites for its iPhone announcement event as soon as this week.\n\n\n\n\n\nApple plans to hold an event to introduce the iPhone 16 models, al…", "url": "https://www.macrumors.com/2024/08/26/apple-likely-iphone-16-launch-date/", "urlToImage": "https://images.macrumors.com/t/iH66M2NrXWVwcQzzSngX9MjPQyY=/2500x/article-new/2023/11/iPhone-16-Pro-Mock-Article.jpg", "publishedAt": "2024-08-26T09:56:38Z", "content": "Apple is likely to launch its new iPhone 16 lineup in stores on Friday, September 20, with Apple expected to send out media invites for its iPhone announcement event as soon as this week.\r\nApple plan… [+3763 chars]" }, { "source": { "id": null, "name": "Hipertextual" }, "author": "Gonzalo Franco", "title": "‘Ted Lasso’: Todo lo que sabemos de la temporada 4 de la serie de Apple TV+", "description": "Ted Lasso, una de las mejores series de los últimos años, está a punto de regresar. La comedia de Apple TV+ puso una suerte de punto y final el pasado 2023 con una tercera temporada que, a priori, servía de despedida. Pero el proyecto cuenta con una aclamació…", "url": "http://hipertextual.com/2024/08/ted-lasso-todo-lo-que-sabemos-de-la-temporada-4-de-la-serie-de-apple-tv", "urlToImage": "https://imgs.hipertextual.com/wp-content/uploads/2023/05/RLVAC6RWJVDVXEH4MVGUKKOSUQ-scaled.jpeg", "publishedAt": "2024-08-26T08:34:49Z", "content": "Ted Lasso, una de las mejores series de los últimos años, está a punto de regresar. La comedia de Apple TV+ puso una suerte de punto y final el pasado 2023 con una tercera temporada que, a priori, se… [+3196 chars]" }, { "source": { "id": null, "name": "Hipertextual" }, "author": "Rubén Chicharro", "title": "‘Ted Lasso’ tendrá cuarta temporada: Warner Bros activa la cláusula necesaria para ello", "description": "Apple la quería. Y parece que, finalmente, Ted Lasso, la popular serie de Apple TV+, tendrá una cuarta temporada. Según informa Deadline, Warner Bros, el estudio de la serie, ya se encuentra en las fases finales de las negociaciones, y todo va bien encaminado…", "url": "http://hipertextual.com/2024/08/ted-lasso-tendra-cuarta-temporada", "urlToImage": "https://imgs.hipertextual.com/wp-content/uploads/2023/03/ted-lasso-artwork.jpg", "publishedAt": "2024-08-26T06:56:57Z", "content": "Apple la quería. Y parece que, finalmente, Ted Lasso, la popular serie de Apple TV+, tendrá una cuarta temporada. Según informa Deadline, Warner Bros, el estudio de la serie, ya se encuentra en las f… [+2044 chars]" }, { "source": { "id": null, "name": "9to5Mac" }, "author": "Michael Burkhardt", "title": "What if Apple made a travel focused Apple Card?", "description": "Apple Card recently passed its five year anniversary, and I’ve recently been thinking about whats next for the credit card. With Apple Card not being super profitable, combined with the fact that Apple wants to position itself as more of a services company, I…", "url": "https://9to5mac.com/2024/08/25/apple-card-travel/", "urlToImage": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2023/06/apple-card-amex.webp?resize=1200%2C628&quality=82&strip=all&ssl=1", "publishedAt": "2024-08-25T20:00:00Z", "content": "Apple Card recently passed its five year anniversary, and I’ve recently been thinking about whats next for the credit card. With Apple Card not being super profitable, combined with the fact that App… [+3996 chars]" }, { "source": { "id": null, "name": "9to5Mac" }, "author": "Michael Burkhardt", "title": "Apple should make a travel focused credit card", "description": "Apple Card recently passed its five year anniversary, and I’ve recently been thinking about whats next for the credit card. With Apple Card not being super profitable, combined with the fact that Apple wants to position itself as more of a services company, I…", "url": "https://9to5mac.com/2024/08/25/apple-card-pro/", "urlToImage": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2023/06/apple-card-amex.webp?resize=1200%2C628&quality=82&strip=all&ssl=1", "publishedAt": "2024-08-25T20:00:00Z", "content": "Apple Card recently passed its five year anniversary, and I’ve recently been thinking about whats next for the credit card. With Apple Card not being super profitable, combined with the fact that App… [+3996 chars]" }, { "source": { "id": null, "name": "Yahoo Entertainment" }, "author": null, "title": "Vitals is one of the best Apple Watch apps I’ve used in years", "description": null, "url": "https://consent.yahoo.com/v2/collectConsent?sessionId=1_cc-session_43ccf970-523d-4f25-9f3b-c671bea278c3", "urlToImage": null, "publishedAt": "2024-08-26T12:00:46Z", "content": "If you click 'Accept all', we and our partners, including 237 who are part of the IAB Transparency &amp; Consent Framework, will also store and/or access information on a device (in other words, use … [+678 chars]" }, { "source": { "id": null, "name": "Xataka.com" }, "author": "Javier Lacort", "title": "Apple quiere hacer de la robótica doméstica su próximo gran éxito, según Bloomberg. Y tiene un plan en tres fases", "description": "Aunque ya había filtrado anteriormente la idea de Apple de lanzar dispositivos robóticos para el hogar, Mark Gurman ha dado nuevos detalles en Bloomberg sobre los planes y los plazos para los distintos productos que tiene en el horizonte.\n<!-- BREAK 1 -->\nPor…" ,"url" :"https://www.xataka.com/domotica-1/apple-quiere-hacer-robotica-domestica-su-proximo-gran-exito-bloomberg-tiene-plan-tres-fases" ,"urlToImage" :"https://i.blogs.es/72e6d3/cute-humanoid-robot-in-kitchen/840_560.jpeg" ,"publishedAt" :"2024-08-26T06:10:59Z" ,"content" :"Aunque ya había filtrado anteriormente la idea de Apple de lanzar dispositivos robóticos para el hogar, Mark Gurman ha dado nuevos detalles en Bloombergsobre los planes y los plazos para los distinto… [+2768 chars] "} , {"source" : {"id" :null ,"name" :"9to5Mac "} ,"author" :"Michael Burkhardt" ,"title" :"Ten Apple products that’ll likely be discontinued next month" ,"description" :"Apple’s annual iPhone event is expected to be held Apple Watch models, and potentially more. However, the introduction of new products also means saying goodbye to older ones. These are some Apple products you probably won’t be able to buy from the Apple Stor…" ,"url" :"https://9to5mac.com/2024/08/25/apple-discontinued-products/" ,"urlToImage" :"https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2024/07/apple-device-lineup.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1" ,"publishedAt" :"2024-08-25T17:00:00Z" ,"content" :"Apple’s annual iPhone event is expected to be held as soon as September 10th, where we’ll see iPhone 16, new AirPods, some new Apple Watch models, and potentially more. However, the introduction of n… [+3939 chars] "} , {"source" : {"id" :null ,"name" :"Android Police "} ,"author" :"Parth Shah" ,"title" :"6 ways Google did a better job with the Pixel 9 than Apple did with its iPhone lineup" ,"description" :"Google specs up their standard flagship way better than Apple" ,"url" :"https://www.androidpolice.com/ways-google-does-better-job-than-apple-with-vanilla-flagship/" ,"urlToImage" :"https://static1.anpoimages.com/wordpress/wp-content/uploads/wm/2024/08/google-pixel-9-orange-fabric.jpg" ,"publishedAt" :"2024-08-25T07:59:13Z" ,"content" :"Google's answer to the latest Apple iPhone and Samsung Galaxy devices went live at the company's Made by Google event. Looking at the Google Pixel 9 series' new design language with flat edges, aggre… [+5406 chars] "} , {"source" : {"id" :null ,"name" :"Xataka.com "} ,"author" :"Ricardo Aguilar" ,"title" :"Apple quiere sanear sus cuentas con el iPhone 16. Los modelos más caros son su clave" ,"description" :"Quedan apenas tres semanas para conocer a los próximos iPhone 16. Los rumores están cada vez más candentes: ya creemos saber cómo serán sus sistemas de cámara, la configuración de procesadores por la que apostarán, y cómo será el diseño de la nueva familia de…" ,"url" :"https://www.xataka.com/moviles/apple-tiene-gran-plan-para-iphone-16-vender-modelos-pro-que-nunca" ,"urlToImage" :"https://i.blogs.es/1f0c98/iphone/840_560.jpeg" ,"publishedAt" :"2024-08-26T09:01:58Z" ,"content" :"Quedan apenas tres semanas para conocer a los próximos iPhone 16. Los rumores están cada vez más candentes: ya creemos saber cómo serán sus sistemas de cámara, la configuración de procesadores por la… [+1506 chars] "} , {"source" : {"id" :null ,"name" :"NPR "} ,"author" :"NPR" ,"title" :"How would banning taxes on tips actually work?" ,"description" :"Both major party presidential nominees Donald Trump and Kamala Harris are on the same side of one issue. Getting rid of taxes on tips. But what would that <em>really</em> look like in practice?  <br><br>Wailin Wong and Darian Woods from NPR's daily economics …" ,"url" :"https://www.npr.org/2024/08/25/1198913139/how-would-banning-taxes-on-tips-actually-work" ,"urlToImage" :"https://media.npr.org/assets/img/2024/08/23/gettyimages-1223899527-1-_wide-6aeb20768db551511d8dd72c2ff0c474b24c8bac.jpg?s=1400&c=100&f=jpeg" ,"publishedAt" :"2024-08-25T20:00:59Z" ,"content" :"Both Donald Trump and Kamala Harris are pushing to end taxes on tipping. But economists say any policy that bans taxes on tips could be abused if guardrails aren't put in place.\r\nEthan Miller/Getty I… [+657 chars] "} , {"source" : {"id" :null ,"name" :"9to5Mac "} ,"author" :"Arin Waichulis" ,"title" :"Security Bite: Cybercrime projected to cost $326,000 every second by 2025" ,"description" :"9to5Mac Security Bite is exclusively brought to you by Mosyle, the only Apple Unified Platform. Making Apple devices work-ready and enterprise-safe is all we do. Our unique integrated approach to management and security combines state-of-the-art Apple-specifi…" ,"url" :"https://9to5mac.com/2024/08/25/security-bite-annual-cost-of-cybercrime-2025/" ,"urlToImage" :"https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2021/07/iOS-security-fix-may-have-been-for-NSO-exploit.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1" ,"publishedAt" :"2024-08-25T14:06:00Z" ,"content" :"9to5Mac Security Bite is exclusively brought to you by Mosyle, the only Apple Unified Platform.Making Apple devices work-ready and enterprise-safe is all we do. Our unique integrated approach to mana… [+5185 chars] "} , {"source" : {"id" :null ,"name" :"Tom's Guide "} ,"author" :"Philip Michaels" ,"title" :"Should you buy iPhone 16 or wait for iPhone 15 price drop?" ,"description" :"The iPhone 16 launch won't just mean new phones from Apple In addition to the new models, Apple figures to keep around some of its current iPhones at reduced..." ,"url" :"https://www.tomsguide.com/phones/iphones/dont-buy-iphone-15-now-get-ready-for-a-price-drop-when-new-iphone-16-arrives" ,"urlToImage" :"https://s.yimg.com/ny/api/res/1.2/U5MemIWeZrqY3bYQkSlO5A--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://media.zenfs.com/en/toms_guide_826/287fc4b8e62438119b8097f2ef55ba12" ,"publishedAt" :"2024-08-25T08:00:14Z" ,"content" :"When you buy through links on our articles, Future and its syndication partners may earn a commission.\r\nWhen CEO Tim Cook appears on stage at the fall Apple event rumored to be happening next month, … [+6402 chars] "} , {"source" : {"id" :null ,"name" :"Thekitchn.com "} ,"author" :"Sarah Holden" ,"title" :"This \"Perfect\" Glazed Apple Cake Is So Easy, I’ll Be Making It Every Weekend" ,"description" :"It's loaded with apple flavor.\nREAD MORE..." ,"url" :"https://www.thekitchn.com/apple-cake-recipe-23675989" ,"urlToImage" :"https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fill,g_auto,w_1500,ar_3:2/k%2FPhoto%2FRecipes%2F2024-07-apple-cake%2Fapple-cake-633" ,"publishedAt" :"2024-08-25T14:00:00Z" ,"content" :"Substitutions: Sour cream can be substituted for the Greek yogurt.\r\nIngredient/equipment variations: You can grate the apple using the grater attachment on a food processor.\r\nMake ahead: The unglazed… [+264 chars] "} , {"source" : {"id" :null ,"name" :"Digital Trends "} ,"author" :"Joe Maring" ,"title" :"Vitals is one of the best Apple Watch apps I’ve used in years" ,"description" :"Apple's watchOS 11 update has a few big changes, including a new Vitals app. I've been using it for a few weeks, and it's everything I hoped it would be." ,"url" :"https://www.digitaltrends.com/mobile/apple-watch-vitals-one-of-the-best-apps-ive-used-in-years/" ,"urlToImage" :"https://www.digitaltrends.com/wp-content/uploads/2024/08/apple-watch-vitals-app-watchos-11-1.jpg?resize=1200%2C630&p=1" ,"publishedAt" :"2024-08-26T12:00:46Z" ,"content" :"A little over two months ago, Apple held its WWDC 2024 conference and unveiled a lot of new software features. There was plenty to sink your teeth into, but my favorite announcement of the show was w… [+4659 chars] "} , {"source" : {"id" :null ,"name" :"CNET "} ,"author" :"Abrar Al-Heeti" ,"title" :"Will the iPhone 16 Be More Expensive? Here's What We Expect" ,"description" :"Apple could use AI and hardware upgrades to justify higher prices on its upcoming iPhone lineup." ,"url" :"https://www.cnet.com/tech/mobile/will-the-iphone-16-be-more-expensive-heres-what-we-expect/" ,"urlToImage" :"https://www.cnet.com/a/img/resize/c45b6c30ca49dc0ca8404a1131485ef40ddbadae/hub/2023/09/18/257d8abf-9855-4e6b-b1fb-7cf8d631f8ba/iphone15-pro-33.jpg?auto=webp&fit=crop&height=675&width=1200" ,"publishedAt" :"2024-08-26T11:00:13Z" ,"content" :"Beyond all the flashy presentations on camera specs and battery capacity, one of the most important questions looming over any new phone unveiling is: How much will it cost? As we approach the antici… [+4950 chars] "} ]}
+
+            console.log(response)
+            let str = ""
+            resultCount.innerHTML = response.totalResults
+            for (let item of response.articles) {
+                str = str + ` <div class="card my-4 mx-2" style="width: 18rem;">
+                <img src="${item.urlToImage}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${item.title}</h5>
+                    <p class="card-text">${item.description}</p>
+                    <a href="${item.url}" target="_blank" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>`
+            }
+            document.querySelector(".content").innerHTML = str
+        }
+        fetchNews(1)
+    </script>
+</body>
+
+</html>
