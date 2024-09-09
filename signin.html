@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body text-center p-4">
+                        <!-- Logo Image -->
+                        <img src="NABAA-TV-LOGO1.png" alt="NABAATV" class="img-fluid mb-3" style="width: 100px;">
+                        <!-- Title -->
+                        <h3 class="card-title text-danger">Sign in to ur NABAATV account</h3>
+
+                        <form action="signin.php" method="POST">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control border-danger" id="email" name="email"
+                                    placeholder="Enter your email" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-block">Sign in</button>
+                            <p class="inline-text">Don't have an account</p>
+                            <a href="subscription.html" class="btn-link">Sign up?</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (No jQuery or Popper.js needed) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>
