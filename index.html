@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img class="d-inline-block align-top" src="NABAA-TV-LOGO1.png" width="100" height="40" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            News
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">World</a></li>
+                            <li><a class="dropdown-item" href="#">Politics</a></li>
+                            <li><a class="dropdown-item" href="#">Sports</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <img src="facebook-logo-facebook-icon-transparent-free-png.webp" id="fb" width="100" height="50"
+                            alt="facebook-page" style="cursor:pointer;">
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <a href="signin.html" type="submit" class="btn btn-outline-danger btn-block">Sign in</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- News Section -->
+        <div class="container my-4">
+            <h1 class="text-center">Latest News</h1>
+            <div id="newsContainer" class="row"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white text-center py-3">
+            <p>&copy; 2024 NABAA TV | All rights reserved.</p>
+        </footer>
+
+        <!-- Bootstrap and Custom Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+
+        <!-- Script to Fetch and Display News -->
+        <script>
+            const apiKey = '1f389b12ee7c49c4b327d0cac892f9f5'; // Replace with your NewsAPI key
+            const newsContainer = document.getElementById('newsContainer');
+
+            // Fetch news from the API
+            fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    const validArticles = data.articles.filter(article => article.content && !article.content.includes('removed') && article.content.length > 100);
+
+                    // Check if there are valid articles
+                    if (validArticles.length === 0) {
+                        newsContainer.innerHTML = '<p>No valid news articles available at the moment.</p>';
+                        return;
+                    }
+
+                    // Loop through the valid articles and display them
+                    validArticles.forEach((article, index) => {
+                        const newsCard = `
+                    <div class="card my-3 col-md-4">
+                        <img src="${article.urlToImage || 'news-image-placeholder.jpg'}" class="card-img-top" alt="News Image" onerror="this.src='news-image-placeholder.jpg'">
+                        <div class="card-body">
+                            <h5 class="card-title">${article.title}</h5>
+                            <p class="card-text">${article.description || 'No description available.'}</p>
+                            <button class="btn btn-primary" onclick="viewFullArticle(${index})">Read More</button>
+                        </div>
+                    </div>
+                `;
+                        newsContainer.innerHTML += newsCard;
+                    });
+
+                    // Store the valid articles in localStorage for later use
+                    localStorage.setItem('validArticles', encodeURIComponent(JSON.stringify(validArticles)));
+                })
+                .catch(error => console.error('Error fetching news:', error));
+
+            // Function to view the full article
+            function viewFullArticle(index) {
+                const validArticles = JSON.parse(decodeURIComponent(localStorage.getItem('validArticles')));
+                const selectedArticle = validArticles[index];
+                localStorage.setItem('selectedArticle', encodeURIComponent(JSON.stringify(selectedArticle)));
+                window.location.href = 'article.html';
+            }
+        </script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
