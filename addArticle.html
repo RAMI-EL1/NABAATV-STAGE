@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> ADD ARTICLE </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #212429;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #mainNavbar {
+            background-color: white;
+        }
+
+        header+* {
+            background-color: #212429;
+        }
+
+        .container {
+            color: white;
+            padding: 50px;
+        }
+
+        .search-input {
+            height: 35px;
+            width: 200px;
+        }
+
+        .btn {
+            height: 35px;
+            padding: 0 15px;
+            line-height: 35px;
+        }
+
+        .btn-outline-success,
+        .btn-outline-danger {
+            color: #ffffff;
+            border-color: #ffffff;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-danger {
+            margin-left: 10px;
+        }
+
+        .btn-post-article {
+            display: inline-block;
+            margin: 20px auto;
+            background-color: #c2272e;
+            color: white;
+            width: 150px;
+        }
+
+        .btn-reset-article {
+            display: inline-block;
+            margin: 20px 10px;
+            background-color: #c2272e;
+            color: white;
+            width: 150px;
+        }
+
+        #title {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+        }
+
+        #content {
+            font-family: sans-serif;
+        }
+    </style>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="mainNavbar">
+            <div class="container-fluid justify-content-center">
+                <a class="navbar-brand" href="#">
+                    <img class="d-inline-block align-top" src="NABAA-TV-LOGO1.png" width="400" height="60" />
+                </a>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#c2272e;">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="politics.php">Politics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="sports.php">Sports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="entertainement.php">Entertainment</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Post a New Article</h2>
+        <form action="post_article.php" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Article Title:</label>
+                <input type="text" class="form-control" id="title" placeholder="ADD TITLE" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Article Content:</label>
+                <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select class="form-control" name="category" required>
+                    <option value="sports">Sports</option>
+                    <option value="politics">Politics</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="morocco">Morocco</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="image">Article Image:</label>
+                <input type="file" class="form-control" name="image" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-post-article">Post Article</button>
+            <button type="reset" class="btn btn-reset-article">Reset</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
