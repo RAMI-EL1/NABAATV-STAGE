@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Article Page</title>
+    <title>Entertainment News</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
+
+<body>
 <style>
     html,
     body {
@@ -146,7 +148,6 @@
     }
 </style>
 
-<body>
     <div id="top"></div>
 
     <header>
@@ -179,7 +180,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="entertainement.php">Entertainment</a>
                         </li>
-
+                        
                     </ul>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <form class="d-flex" role="search">
@@ -194,75 +195,63 @@
         </nav>
     </header>
 
-    <div class="container">
-        <!-- Article Content Section -->
-        <div class="container my-4">
-            <h1 id="articleTitle"></h1>
-            <p><small id="articleAuthor" class="text-muted"></small></p> <!-- Author moved under the title -->
-            <img id="articleImage" class="img-fluid my-3" src="" alt="Article Image">
-            <p id="articleContent"></p>
+
+    <div class="container my-4">
+        <h1 class="text-center">Entertainment News</h1>
+        <div id="newsContainer" class="row">
+        <?php
+       $servername = "localhost";
+       $username = "marouane";   // Your database username
+       $password = "";       // Your database password
+       $dbname = "news_website";  // Your database name
+       
+       // Create connection
+       $conn = new mysqli($servername, $username, $password, $dbname);
+       
+       // Check connection
+       if ($conn->connect_error) {
+           die("Connection failed: " . $conn->connect_error);
+       }
+       
+       
+       $category = 'entertainment';
+       $sql = "SELECT id, title, content, image_url, created_at FROM articles WHERE category = '$category' ORDER BY created_at DESC";
+       $result = $conn->query($sql);
+
+       if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+           echo '<div class="col-md-4">';
+           echo '<div class="card mb-4">';
+       if (!empty($row['image_url'])) {
+           echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="Article Image">';
+       }
+       echo '<div class="card-body">';
+       echo '<h5 class="card-title">' . $row['title'] . '</h5>';
+       echo '<p class="card-text">' . substr($row['content'], 0, 150) . '...</p>'; 
+       echo '<p class="card-text"><small class="text-muted">Posted on ' . date('F j, Y', strtotime($row['created_at'])) . '</small></p>';
+       // Add the Read More button, passing the article ID in the URL
+       echo '<a href="article.html?id=' . $row['id'] . '" class="btn btn-primary">Read More</a>';
+       echo '</div>';
+       echo '</div>';
+       echo '</div>';
+   }
+} else {
+   echo '<p>No articles found in the Entertainment category.</p>';
+}
+
+$conn->close();
+?>
+
         </div>
-
-
-
-        <!-- Bootstrap and Custom Scripts -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous"></script>
-
-        <!-- Script to Display Full Article Content -->
-        <script>
-            // Retrieve article details from localStorage
-            const article = JSON.parse(decodeURIComponent(localStorage.getItem('selectedArticle')));
-
-            // Display article details on the page
-            document.getElementById('articleTitle').innerText = article.title;
-            document.getElementById('articleAuthor').innerText = article.author ? `Author: ${article.author}` : 'Unknown Author';
-            document.getElementById('articleImage').src = article.urlToImage || 'news-image-placeholder.jpg';
-            document.getElementById('articleImage').onerror = function () {
-                this.src = 'news-image-placeholder.jpg';
-            };
-
-            // Display the available content without truncating
-            document.getElementById('articleContent').innerText = article.content || article.description || 'Content not available.';
-        </script>
+    </div>
     </div>
 
+    <!-- Bootstrap and Custom Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <script>
-        // Function to get URL parameters
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
 
-        // Get the article ID from the URL
-        const articleId = getQueryParam('id');
-
-        // Fetch the article details using AJAX
-        if (articleId) {
-            fetch(`getArticle.php?id=${articleId}`)
-                .then(response => response.json())
-                .then(article => {
-                    if (article.error) {
-                        document.getElementById('articleContent').innerText = article.error;
-                    } else {
-                        document.getElementById('articleTitle').innerText = article.title;
-                        document.getElementById('articleAuthor').innerText = article.author || 'Unknown Author';
-                        document.getElementById('articleImage').src = article.image_url || 'news-image-placeholder.jpg';
-                        document.getElementById('articleContent').innerText = article.content || 'Content not available.';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching article:', error);
-                    document.getElementById('articleContent').innerText = 'Error loading article.';
-                });
-        }
-    </script>
-
-    <footer class="bg-dark text-white" style="position: relative; padding: 2rem 0; width:100% ;">
+        <footer class="bg-dark text-white" style="position: relative; padding: 2rem 0; width:100% ;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -340,7 +329,6 @@
             Back to Top
         </a>
     </footer>
-
 </body>
 
 </html>

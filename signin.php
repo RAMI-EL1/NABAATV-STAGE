@@ -25,7 +25,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     // Email exists, redirect to the news page
-    header("Location: nabaatv.html");
+    header("Location: index.html");
     exit();  // Make sure to exit after redirection
 } else {
     // Email does not exist, show an error or redirect to sign-up page
