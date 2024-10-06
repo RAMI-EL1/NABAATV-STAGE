@@ -1,45 +1,24 @@
-<!--<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Post News</title>
-    <link rel="stylesheet" href="path_to_bootstrap.css">
-</head>
-
-<body>
-    <div class="container">
-        <h2>Post a New Article</h2>
-        <form action="post_article.php" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="title">Article Title:</label>
-                <input type="text" class="form-control" name="title" required>
-            </div>
-            <div class="form-group">
-                <label for="content">Article Content:</label>
-                <textarea class="form-control" name="content" rows="10" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select class="form-control" name="category" required>
-                    <option value="sports">Sports</option>
-                    <option value="politics">Politics</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="morocco">Morocco</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="image">Article Image:</label>
-                <input type="file" class="form-control" name="image" accept="image/*">
-            </div>
-            <button type="submit" class="btn btn-primary">Post Article</button>
-        </form>
-    </div>
-</body>
-
-</html> -->
 <?php
+$servername = "localhost";
+$username = "marouane";   // Your database username
+$password = "";       // Your database password
+$dbname = "news_website";  // Your database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+session_start();
+
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+
 if (isset($_GET['success']) && $_GET['success'] == 1) {
     echo "<script>alert('Article posted successfully!');</script>";
 }
@@ -72,9 +51,6 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             flex-direction: column;
         }
 
-        footer {
-            margin-top: auto;
-        }
 
         .container-fluid {
             padding-bottom: 0;
@@ -162,34 +138,6 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             margin: 0 auto;
         }
 
-        footer .col-md-6 {
-            position: relative;
-        }
-
-        footer .col-md-6:nth-child(2) {
-            position: absolute;
-            top: 0;
-            left: 70%;
-            transform: translateX(-50%);
-            z-index: 1;
-            width: 100%;
-            text-align: center;
-        }
-
-        footer .col-md-6:nth-child(2) h5 {
-            color: #ce3c4a !important;
-            font-size: 28px;
-        }
-
-        footer .col-md-6:nth-child(2) .d-flex {
-            justify-content: center;
-            gap: 20px;
-        }
-
-        footer .col-md-6:nth-child(2) .d-flex a {
-            font-size: 35px;
-            color: white;
-        }
     </style>
 
     <div id="top"></div>
@@ -214,9 +162,12 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="home.php">Home</a>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">API NEWS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="politics.php">Politics</a>
@@ -292,7 +243,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 const validArticles = JSON.parse(decodeURIComponent(localStorage.getItem('validArticles')));
                 const selectedArticle = validArticles[index];
                 localStorage.setItem('selectedArticle', encodeURIComponent(JSON.stringify(selectedArticle)));
-                window.location.href = 'article.html';
+                window.location.href = 'article.php';
             }
         </script>
     </div>
@@ -328,84 +279,64 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         fetchArticles();
     </script>
 
-    <footer class="bg-dark text-white" style="position: relative; padding: 2rem 0; width:100% ;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card shadow-lg custom-card">
-                        <div class="card-body text-center p-3">
-                            <h3 class="card-title text-danger">Contact Us</h3>
-                            <form action="contact.php" method="POST">
-                                <div class="row mb-3">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="email"></label>
-                                            <input type="email" class="form-control border-danger" id="email"
-                                                name="email" placeholder="Enter your email" required>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="name"></label>
-                                            <input type="text" class="form-control border-danger" id="name" name="name"
-                                                placeholder="Enter your name">
-                                        </div>
-                                    </div>
+<footer class="bg-dark text-white" style="padding: 2rem 0; width: 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-lg custom-card">
+                    <div class="card-body text-center p-3">
+                        <h3 class="card-title text-danger">Contact Us</h3>
+                        <!-- Contact Us Form -->
+                        <form action="contact.php" method="POST">
+                            <!-- Email and Name -->
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="email" class="form-control border-danger" id="email" name="email" placeholder="Enter your email" required>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="message"></label>
-                                    <textarea name="message" class="form-control border-danger" id="message"
-                                        placeholder="Your message"></textarea>
+                                <div class="col">
+                                    <input type="text" class="form-control border-danger" id="name" name="name" placeholder="Enter your name">
                                 </div>
-                                <button type="submit" class="btn btn-danger btn-block mt-4">Send</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 d-flex flex-column align-items-center"
-                    style="margin-left: 150px;  margin-top:100PX ;">
-                    <h5 class="text-uppercase font-weight-bold w-100 text-center"
-                        style="color: #ce3c4a !important; font-size: 28px;">
-                        FOLLOW US ON ALL OUR SOCIALS
-                    </h5>
-
-                    <div class="d-flex justify-content-center mt-2">
-                        <p class="me-3">
-                            <a href="https://www.facebook.com/Nabaatvcom" class="btn-floating btn-sm text-white"
-                                style="font-size: 35px;">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                        </p>
-                        <p class="me-3">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                <i class="fab fa-x"></i>
-                            </a>
-                        </p>
-                        <p class="me-3">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </p>
-                        <p class="me-3">
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                        </p>
-                        <p>
-                            <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                <i class="fab fa-threads"></i>
-                            </a>
-                        </p>
+                            </div>
+                            <!-- Message -->
+                            <div class="form-group mb-3">
+                                <textarea name="message" class="form-control border-danger" id="message" placeholder="Your message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-block mt-4">Send</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</footer>
 
-        <a href="#top" class="text-white"
-            style="position: absolute; bottom: 10px; left: 10px; color: #c2272e; text-decoration: none; font-size: 16px;">
-            Back to Top
-        </a>
-    </footer>
+<footer class="bg-secondary text-white" style="padding: 1rem 0; width: 100%; background-color: #2c3236 !important;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <a href="#top" class="text-white" style="text-decoration: none;">
+                <i class="fa fa-arrow-up"></i> Back to Top
+            </a>
+        </div>
+        
+        <div class="d-flex">
+            <a href="https://www.facebook.com/Nabaatvcom" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-x"></i>
+            </a>
+            <a href="#" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="#" class="btn-floating text-white" style="font-size: 25px;">
+                <i class="fab fa-threads"></i>
+            </a>
+        </div>
+    </div>
+</footer>
 </body>
 
 </html>

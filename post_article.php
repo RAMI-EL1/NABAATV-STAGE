@@ -14,10 +14,10 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $conn->real_escape_string($_POST['title']);
-    $content = $conn->real_escape_string($_POST['content']);
-    $category = $conn->real_escape_string($_POST['category']);
-    
+
+ $title = $_POST['title'];
+ $content = $_POST['content'];
+ $category = $_POST['category'];
     // Handle image upload
     $image_url = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $image_url = $target_file;
         }
     }
+
+    $content = strip_tags($_POST['content']);
 
     // Insert article into the database
     $stmt = $conn->prepare("INSERT INTO articles (title, content, image_url, category) VALUES (?, ?, ?, ?)");

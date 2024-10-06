@@ -1,3 +1,9 @@
+<?php
+session_start();
+$isAdmin = isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,9 +30,6 @@
         flex-direction: column;
     }
 
-    footer {
-        margin-top: auto;
-    }
 
     .container-fluid {
         padding-bottom: 0;
@@ -116,34 +119,7 @@
         margin: 0 auto;
     }
 
-    footer .col-md-6 {
-        position: relative;
-    }
 
-    footer .col-md-6:nth-child(2) {
-        position: absolute;
-        top: 0;
-        left: 70%;
-        transform: translateX(-50%);
-        z-index: 1;
-        width: 100%;
-        text-align: center;
-    }
-
-    footer .col-md-6:nth-child(2) h5 {
-        color: #ce3c4a !important;
-        font-size: 28px;
-    }
-
-    footer .col-md-6:nth-child(2) .d-flex {
-        justify-content: center;
-        gap: 20px;
-    }
-
-    footer .col-md-6:nth-child(2) .d-flex a {
-        font-size: 35px;
-        color: white;
-    }
 </style>
 
 <body>
@@ -166,9 +142,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="home.php">Home</a>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">API NEWS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="politics.php">Politics</a>
@@ -179,17 +158,28 @@
                         <li class="nav-item">
                             <a class="nav-link" href="entertainement.php">Entertainment</a>
                         </li>
-
                     </ul>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <form class="d-flex" role="search">
                             <input class="form-control me-2 search-input" type="search" placeholder="Search"
                                 aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
-                            <a href="signin.html" class="btn btn-outline-danger ms-2">Sign in</a>
+
+                    <!-- Check if user is logged in -->
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                              <a href="profile.php" class="btn btn-outline-success ms-2">Hello, <?php echo $_SESSION['user_name']; ?></a>
+                              <a href="logout.php" class="btn btn-outline-danger ms-2">Logout</a>
+                          <?php else: ?>
+                              <a href="login.php" class="btn btn-outline-danger ms-2">Sign in</a>
+                          <?php endif; ?>
+                            
+                                    
+                           <!-- <a href="login.php" class="btn btn-outline-danger ms-2">Sign in</a>-->
                         </form>
                     </div>
                 </div>
+
+
             </div>
         </nav>
     </header>
@@ -197,6 +187,15 @@
 
     <div class="container my-4">
         <h1 class="text-center">Politics News</h1>
+
+            <!-- Display Add Article Button for Admins -->
+    <?php if ($isAdmin): ?>
+        <div class="text-end mb-3">
+            <a href="addArticle.html" class="btn btn-danger">Add Article</a>
+        </div>
+    <?php endif; ?>
+
+
         <div id="newsContainer" class="row">
         <?php
        $servername = "localhost";
@@ -229,7 +228,7 @@
        echo '<p class="card-text">' . substr($row['content'], 0, 150) . '...</p>'; 
        echo '<p class="card-text"><small class="text-muted">Posted on ' . date('F j, Y', strtotime($row['created_at'])) . '</small></p>';
        // Add the Read More button, passing the article ID in the URL
-       echo '<a href="article.html?id=' . $row['id'] . '" class="btn btn-primary">Read More</a>';
+       echo '<a href="article.php?id=' . $row['id'] . '" class="btn btn-primary">Read More</a>';
        echo '</div>';
        echo '</div>';
        echo '</div>';
@@ -248,84 +247,64 @@ $conn->close();
     <!-- Bootstrap and Custom Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
-        <footer class="bg-dark text-white" style="position: relative; padding: 2rem 0; width:100% ;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card shadow-lg custom-card">
-                            <div class="card-body text-center p-3">
-                                <h3 class="card-title text-danger">Contact Us</h3>
-                                <form action="contact.php" method="POST">
-                                    <div class="row mb-3">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="email"></label>
-                                                <input type="email" class="form-control border-danger" id="email"
-                                                    name="email" placeholder="Enter your email" required>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="name"></label>
-                                                <input type="text" class="form-control border-danger" id="name"
-                                                    name="name" placeholder="Enter your name">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="message"></label>
-                                        <textarea name="message" class="form-control border-danger" id="message"
-                                            placeholder="Your message"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-danger btn-block mt-4">Send</button>
-                                </form>
+        <footer class="bg-dark text-white" style="padding: 2rem 0; width: 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-lg custom-card">
+                    <div class="card-body text-center p-3">
+                        <h3 class="card-title text-danger">Contact Us</h3>
+                        <!-- Contact Us Form -->
+                        <form action="contact.php" method="POST">
+                            <!-- Email and Name -->
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="email" class="form-control border-danger" id="email" name="email" placeholder="Enter your email" required>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control border-danger" id="name" name="name" placeholder="Enter your name">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 d-flex flex-column align-items-center"
-                        style="margin-left: 150px;  margin-top:100PX ;">
-                        <h5 class="text-uppercase font-weight-bold w-100 text-center"
-                            style="color: #ce3c4a !important; font-size: 28px;">
-                            FOLLOW US ON ALL OUR SOCIALS
-                        </h5>
-
-                        <div class="d-flex justify-content-center mt-2">
-                            <p class="me-3">
-                                <a href="https://www.facebook.com/Nabaatvcom" class="btn-floating btn-sm text-white"
-                                    style="font-size: 35px;">
-                                    <i class="fab fa-facebook"></i>
-                                </a>
-                            </p>
-                            <p class="me-3">
-                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                    <i class="fab fa-x"></i>
-                                </a>
-                            </p>
-                            <p class="me-3">
-                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                    <i class="fab fa-youtube"></i>
-                                </a>
-                            </p>
-                            <p class="me-3">
-                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </p>
-                            <p>
-                                <a href="#" class="btn-floating btn-sm text-white" style="font-size: 35px;">
-                                    <i class="fab fa-threads"></i>
-                                </a>
-                            </p>
-                        </div>
+                            <!-- Message -->
+                            <div class="form-group mb-3">
+                                <textarea name="message" class="form-control border-danger" id="message" placeholder="Your message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-block mt-4">Send</button>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</footer>
 
-            <a href="#top" class="text-white"
-                style="position: absolute; bottom: 10px; left: 10px; color: #c2272e; text-decoration: none; font-size: 16px;">
-                Back to Top
+<footer class="bg-secondary text-white" style="padding: 1rem 0; width: 100%; background-color: #2c3236 !important;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <a href="#top" class="text-white" style="text-decoration: none;">
+                <i class="fa fa-arrow-up"></i> Back to Top
             </a>
-        </footer>
+        </div>
+        
+        <div class="d-flex">
+            <a href="https://www.facebook.com/Nabaatvcom" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-x"></i>
+            </a>
+            <a href="#" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="btn-floating text-white me-3" style="font-size: 25px;">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="#" class="btn-floating text-white" style="font-size: 25px;">
+                <i class="fab fa-threads"></i>
+            </a>
+        </div>
+    </div>
+</footer>
 </body>
 
 </html>

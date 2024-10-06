@@ -30,7 +30,8 @@ $stmt->bind_param("sss", $email, $name, $message);
 
 // Execute the statement
 if ($stmt->execute()) {
-    echo "success";
+    header("Location: home.php?success=1"); 
+    exit();
 } else {
     echo "Error: " . $stmt->error ;
 }

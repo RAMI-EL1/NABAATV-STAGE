@@ -25,12 +25,12 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     // Email exists, redirect to the news page
-    header("Location: index.html");
+    header("Location: index.php");
     exit();  // Make sure to exit after redirection
 } else {
     // Email does not exist, show an error or redirect to sign-up page
     echo "<script>alert('Email not found. Please sign up first.');</script>";
-    echo "<script>window.location.href = 'subscription.html';</script>";
+    echo "<script>window.location.href = 'register.php';</script>";
 }
 
 // Close the database connection
