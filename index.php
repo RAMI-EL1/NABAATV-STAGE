@@ -1,27 +1,5 @@
-
 <?php
-$servername = "localhost";
-$username = "marouane";   // Your database username
-$password = "";       // Your database password
-$dbname = "news_website";  // Your database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 session_start();
-
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: login.php");
-    exit;
-}
-
-if (isset($_GET['success']) && $_GET['success'] == 1) {
-    echo "<script>alert('Article posted successfully!');</script>";
-}
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +28,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             display: flex;
             flex-direction: column;
         }
+
 
 
         .container-fluid {
@@ -93,6 +72,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 
         .custom-card {
             width: 100%;
+            z-index: 10;
+            position: relative;
             max-height: 310px;
             overflow: visible;
             margin: 0 auto;
@@ -154,14 +135,11 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 
         <nav class="navbar navbar-expand-md navbar-dark" style="background-color:#c2272e;">
             <div class="container-fluid">
-                <a href="addArticle.html" class="btn btn-outline-success me-2" style="width: 150px;">Add Article</a>
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
+                <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="home.php">Home</a>
@@ -179,13 +157,26 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                             <a class="nav-link" href="entertainement.php">Entertainment</a>
                         </li>
                     </ul>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2 search-input" type="search" placeholder="Search"
+                                aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                              <!-- Check if user is logged in -->
+                              <?php if (isset($_SESSION['user_id'])): ?>
+                              <a href="profile.php" class="btn btn-outline-success ms-2">Hello, <?php echo $_SESSION['user_name']; ?></a>
+                              <a href="logout.php" class="btn btn-outline-danger ms-2">Logout</a>
+                          <?php else: ?>
+                              <a href="login.php" class="btn btn-outline-danger ms-2">Sign in</a>
+                          <?php endif; ?>
+                            
+                            
+                            
+                            
+                          <!--  <a href="login.php" class="btn btn-outline-danger ms-2">Sign in</a>-->
+                        </form>
+                    </div>
                 </div>
-
-                <!-- Notifications button on the far right -->
-                <a href="Messages.php" class="btn btn-outline-light" style="width: 150px;">
-                    <i class="fa-solid fa-bell"></i> Notifications
-                </a>
-
             </div>
         </nav>
     </header>
@@ -243,7 +234,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 const validArticles = JSON.parse(decodeURIComponent(localStorage.getItem('validArticles')));
                 const selectedArticle = validArticles[index];
                 localStorage.setItem('selectedArticle', encodeURIComponent(JSON.stringify(selectedArticle)));
-                window.location.href = 'article.php';
+                window.location.href = 'Apinews_article.php';
             }
         </script>
     </div>

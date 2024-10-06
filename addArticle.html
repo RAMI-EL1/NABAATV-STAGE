@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- Include Quill stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -39,29 +41,16 @@
             padding: 50px;
         }
 
-        .search-input {
-            height: 35px;
-            width: 200px;
-        }
-
-        .btn {
-            height: 35px;
-            padding: 0 15px;
-            line-height: 35px;
-        }
-
-        .btn-outline-success,
-        .btn-outline-danger {
+        .form-control,
+        #editor {
+            background-color: #343a40;
+            /* Matching input field background */
             color: #ffffff;
-            border-color: #ffffff;
-            width: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .btn-danger {
-            margin-left: 10px;
+            /* Matching text color */
+            border: 1px solid #495057;
+            /* Matching border color */
+            padding: 10px;
+            font-size: 16px;
         }
 
         .btn-post-article {
@@ -109,7 +98,10 @@
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                            <a class="nav-link active" aria-current="page" href="home.php">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.php">API NEWS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="politics.php">Politics</a>
@@ -121,7 +113,6 @@
                             <a class="nav-link" href="entertainement.php">Entertainment</a>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>
@@ -134,10 +125,17 @@
                 <label for="title">Article Title:</label>
                 <input type="text" class="form-control" id="title" placeholder="ADD TITLE" name="title" required>
             </div>
+
             <div class="form-group">
                 <label for="content">Article Content:</label>
-                <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+                <!-- Quill Editor Container -->
+                <div id="editor">
+                    <p>Write your article content here...</p>
+                </div>
+                <!-- Hidden input to store the editor content -->
+                <input type="hidden" name="content" id="content" required>
             </div>
+
             <div class="form-group">
                 <label for="category">Category:</label>
                 <select class="form-control" name="category" required>
@@ -147,18 +145,35 @@
                     <option value="morocco">Morocco</option>
                 </select>
             </div>
+
             <div class="form-group">
                 <label for="image">Article Image:</label>
                 <input type="file" class="form-control" name="image" accept="image/*">
             </div>
+
             <button type="submit" class="btn btn-post-article">Post Article</button>
             <button type="reset" class="btn btn-reset-article">Reset</button>
         </form>
     </div>
 
+    <!-- Include Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+
+    <script>
+        // Initialize Quill editor
+        const quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+        // Ensure the form content includes the Quill data
+        document.querySelector('form').onsubmit = function () {
+            document.querySelector('input[name=content]').value = quill.root.innerHTML;
+        };
+    </script>
 </body>
 
 </html>
